@@ -194,7 +194,7 @@ int main(void)
   SPM_ModbusSetAddress(dev_id);
 
   //uart2 interrupt
-  HAL_UART_Receive_IT(&huart1, &recv_data, 1);
+  HAL_UART_Receive_IT(&huart2, &recv_data, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -227,7 +227,7 @@ int main(void)
 			  HAL_Delay(10);
 			  uint8_t tx_buf[50];
 			  int tx_len = SPM_ModbusTask(rx_buf, rx_len, tx_buf);
-			  HAL_UART_Transmit(&huart1, tx_buf, tx_len, 100);
+			  HAL_UART_Transmit(&huart2, tx_buf, tx_len, 100);
 			  rx_len=0;
 			  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0);
 		  }
@@ -564,11 +564,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-   if (huart->Instance == USART1)
+   if (huart->Instance == USART2)
    {
 	   rx_buf[rx_len] = recv_data;
 	   rx_len++;
-       HAL_UART_Receive_IT(&huart1, &recv_data, 1);
+       HAL_UART_Receive_IT(&huart2, &recv_data, 1);
    }
 }
 /* USER CODE END 4 */
